@@ -1,0 +1,17 @@
+---
+- hosts: jen1
+  tasks:
+    - name: Install git
+      yum:
+        name: git
+        state: latest
+      register: gitlog
+      become: true
+
+    - name: get git version
+      command: "git --version"
+      register: gitver
+    
+    - debug:
+        var: gitlog
+        var: gitver

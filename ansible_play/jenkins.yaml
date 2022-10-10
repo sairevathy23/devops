@@ -1,0 +1,72 @@
+---
+- hosts : localhost
+
+  tasks:
+    - name: Upgrade all packages
+      yum:
+        name: '*'
+        state: latest
+      register: out
+
+    - debug: 
+        var : out 
+        
+    - name: Install Java packages
+      yum:
+        name: 'java-1.8.0'
+        state: present
+      register: install_java
+      become: true
+
+    - debug: 
+        var : install_java
+
+    - name : Check Java Version
+      shell : "java -version"
+      register: version
+
+    - debug:
+       var: version
+
+    - name : Install repo
+      command: "wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo"
+      register: repo
+      become: true
+
+    - debug:
+        var: repo
+
+    - name : Import Pgp Key
+      rpm_key:
+        state: present
+        key: https://pkg.jenkins.io/redhat/jenkins.io.key
+      register: pgp_key
+      become: true
+
+    - debug:
+        var: pgp_key
+
+    - name: Install Jenkins Package
+      yum:
+        name: 'jenkins'
+        state: latest
+      register: install_jenkins
+      become: true
+
+    - debug: 
+        var : install_jenkins
+
+    - name: Ensure systemd daemon reloaded
+      command: systemctl daemon-reload
+
+    - name : service jenkins start
+      service:
+         name: jenkins
+         state: started
+         register: status_jenkins
+         become: true
+
+    - debug:
+        var: status_jenkins
+
+

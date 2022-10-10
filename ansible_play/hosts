@@ -1,0 +1,2 @@
+[buildserver]
+jen1  ansible_connection=local ansible_host=35.92.3.151 ansible_user=jenkins

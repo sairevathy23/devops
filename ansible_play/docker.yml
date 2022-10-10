@@ -1,0 +1,45 @@
+---
+- hosts: localhost
+  tasks:
+    - name: Install docker
+      yum:
+        name: docker
+        state: latest
+      register: dockerlog
+      become: true
+    
+    - debug:
+        var: dockerlog
+
+    - name: Add user to docker group
+      user:
+        name: jenkins
+        group: docker
+        append: yes
+      register: adduser
+      become: true
+    
+    - debug:
+        var: adduser   
+    
+    - name: Docker service restart
+      service:
+          name: docker
+          state: started
+          enabled: yes
+      register: startdocker
+      become: true
+
+    - debug:
+        var: startdocker
+    
+    - name: change docker sock file permission
+      file:
+          path: "/var/run/docker.sock"
+          mode: 0777
+
+      register: changepermission
+      become: true
+
+    - debug:
+        var: changepermission
