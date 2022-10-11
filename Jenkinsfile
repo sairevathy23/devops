@@ -11,9 +11,9 @@ pipeline{
     }
    }
   }
-
-  def getTerraformPath(){
+}
+def getTerraformPath(){
     def tfHome = tool name: 'tf-jen-ans', type: 'terraform'
     return tfHome
-  }
 }
+
