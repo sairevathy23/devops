@@ -10,7 +10,7 @@ pipeline{
           tfpath = "terraform/ec2-creation"
         }
       steps{
-        dir('${tfpath}')
+        dir("terraform/ec2-creation")
         sh returnStatus: true, script: 'terraform workspace new dev'
         sh "terraform init"
         sh "terraform apply -auto-approve"
