@@ -7,7 +7,7 @@ pipeline{
   stages {
     stage('terraform init'){
       steps{
-        dir("terraform/ec2-creation"){
+        dir("terraform/ec2_creation"){
         sh returnStatus: true, script: 'terraform workspace new dev'
         sh "terraform init"
       }
