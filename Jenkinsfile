@@ -7,13 +7,15 @@ pipeline{
   stages {
     stage('terraform init'){
       steps{
-      sh "terraform init"
+        sh "returnStatus: true, script: 'terraform workspace new dev'"
+        sh "terraform init"
+        sh "terraform apply -auto-approve"
     }
    }
   }
 }
+
 def getTerraformPath(){
     def tfHome = tool name: 'tf-jen-ans', type: 'terraform'
     return tfHome
 }
-
