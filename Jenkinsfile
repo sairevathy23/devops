@@ -14,7 +14,7 @@ pipeline{
       }
     }
    }
-  }
+  
     stage('terraform destroy'){
       steps{
         dir("terraform/ec2_creation"){
@@ -23,6 +23,7 @@ pipeline{
       }
     }
    }
+ }
 }
 
 def getTerraformPath(){
